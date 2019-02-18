@@ -37,6 +37,9 @@ def http_download(url,headers={"Accept":"*/*","Connection":"keep-alive"},outputp
 	return 0
 
 import subprocess
+def command_shell(cmd='echo "hello,world"'):
+	subprocess.call(cmd,shell=True)
+
 if __name__ == '__main__':
 	cmd = 'echo "hello,world"'
 	subprocess.call(cmd,shell=True)
