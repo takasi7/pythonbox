@@ -40,6 +40,45 @@ import subprocess
 def command_shell(cmd='echo "hello,world"'):
 	subprocess.call(cmd,shell=True)
 
+
+import codecs
+def split_csv(string):
+	string = string.replace('\r','')
+	string = string.replace('\n','')
+	rec = []
+	item = ''
+	mode = 0
+	for c in string:
+		if c == '"' and mode == 0:
+			mode=1
+			continue
+		elif c == '"' and mode == 1:
+			mode=0
+			continue
+			
+		if c == ',' and mode == 0:
+			rec.append(item)
+			item = ''
+		else:
+			item += c
+	
+	if len(item):
+		rec.append(item)
+		
+	return rec
+	
+
+def load_data(file,encoding='utf-8'):
+	records=[]
+	fh = codecs.open(file, mode='r', encoding=encoding)
+	line = fh.readline()
+	while line:
+		rec = split_csv(line)
+		records.append(rec)
+		line=fh.readline()
+		
+	return records
+
 if __name__ == '__main__':
 	cmd = 'echo "hello,world"'
 	subprocess.call(cmd,shell=True)
